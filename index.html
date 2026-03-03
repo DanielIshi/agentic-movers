@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agentic Movers — AI Agents That Never Forget</title>
+  <meta name="description" content="The only AI agents that learn from every interaction. Multi-agent orchestration. Self-healing. 24/7 autonomous execution.">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0a0a0f;
+      --surface:  #12121a;
+      --border:   rgba(255,255,255,0.08);
+      --accent:   #7c6aff;
+      --accent2:  #48dbfb;
+      --text:     #e8e8f0;
+      --muted:    rgba(232,232,240,0.55);
+      --red:      #ff5f5f;
+      --green:    #4cff91;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0;
+      background: rgba(10,10,15,0.92);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+    .logo { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
+    .logo span { background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 15px; transition: color .2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta { background: var(--accent); color: white; padding: 10px 22px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px; transition: opacity .2s; }
+    .nav-cta:hover { opacity: 0.85; }
+
+    .hero {
+      text-align: center;
+      padding: 100px 24px 80px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(124,106,255,0.15);
+      border: 1px solid rgba(124,106,255,0.35);
+      color: #a89fff;
+      padding: 6px 16px;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 28px;
+      letter-spacing: 0.5px;
+    }
+    h1 {
+      font-size: clamp(40px, 6vw, 72px);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -2px;
+      margin-bottom: 24px;
+    }
+    h1 .grad {
+      background: linear-gradient(135deg, #fff 30%, var(--accent2) 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 20px;
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto 44px;
+      line-height: 1.7;
+    }
+    .hero-ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #5a4fd4);
+      color: white;
+      padding: 16px 36px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 17px;
+      border: none;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 30px rgba(124,106,255,0.35);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(124,106,255,0.5); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      padding: 16px 36px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 17px;
+      border: 1px solid var(--border);
+      transition: border-color .2s;
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.3); }
+
+    .pain {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      max-width: 820px;
+      margin: 0 auto 80px;
+      padding: 40px;
+      text-align: center;
+    }
+    .pain .quote {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+    .pain .quote::before { content: '"'; color: var(--accent); }
+    .pain .quote::after  { content: '"'; color: var(--accent); }
+    .pain p { color: var(--muted); font-size: 16px; }
+
+    section { padding: 80px 24px; }
+    .section-label { text-align: center; color: var(--accent); font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; }
+    h2 { text-align: center; font-size: clamp(28px, 4vw, 44px); font-weight: 800; letter-spacing: -1px; margin-bottom: 60px; }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .compare-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px;
+    }
+    .compare-card.bad  { border-color: rgba(255,95,95,0.3); }
+    .compare-card.good { border-color: rgba(76,255,145,0.3); }
+    .compare-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 24px; }
+    .compare-card.bad  h3 { color: var(--red); }
+    .compare-card.good h3 { color: var(--green); }
+    .compare-card ul { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+    .compare-card li { font-size: 15px; color: var(--muted); display: flex; align-items: flex-start; gap: 10px; }
+
+    .features-bg { background: var(--surface); }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .feat-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      transition: border-color .2s, transform .2s;
+    }
+    .feat-card:hover { border-color: rgba(124,106,255,0.4); transform: translateY(-3px); }
+    .feat-icon { font-size: 32px; margin-bottom: 16px; }
+    .feat-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+    .feat-card p { color: var(--muted); font-size: 15px; line-height: 1.65; }
+
+    .steps {
+      display: flex;
+      flex-direction: column;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .step {
+      display: flex;
+      gap: 24px;
+      padding: 32px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .step:last-child { border-bottom: none; }
+    .step-num {
+      flex-shrink: 0;
+      width: 44px; height: 44px;
+      background: rgba(124,106,255,0.15);
+      border: 1px solid rgba(124,106,255,0.4);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 18px; color: var(--accent);
+    }
+    .step-body h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+    .step-body p { color: var(--muted); font-size: 15px; }
+
+    .cta-section {
+      text-align: center;
+      padding: 100px 24px;
+      background: linear-gradient(135deg, #0d0b1f 0%, #0a1524 100%);
+      border-top: 1px solid var(--border);
+    }
+    .cta-section h2 { margin-bottom: 16px; }
+    .cta-section p { color: var(--muted); margin-bottom: 44px; font-size: 18px; }
+    .lead-form {
+      display: flex;
+      gap: 12px;
+      max-width: 480px;
+      margin: 0 auto 24px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .lead-form input {
+      flex: 1;
+      min-width: 220px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+      color: var(--text);
+      font-size: 16px;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .lead-form input:focus { border-color: var(--accent); }
+    .lead-form input::placeholder { color: var(--muted); }
+    .cta-note { color: var(--muted); font-size: 13px; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    footer .logo { font-size: 18px; }
+    footer p { color: var(--muted); font-size: 14px; }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--text); }
+
+    @media (max-width: 640px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      .compare-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Agentic <span>Movers</span></div>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#how">How it works</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a href="#contact" class="nav-cta">Get a Demo</a>
+</nav>
+
+<div class="hero">
+  <div class="badge">🤖 The World's First 100% AI-Led Company Builder</div>
+  <h1><span class="grad">AI Agents That<br>Never Forget.</span></h1>
+  <p class="hero-sub">We build AI-powered companies for you. Multi-agent teams that run 24/7 — learning from every interaction, never needing to be taught the same thing twice.</p>
+  <div class="hero-ctas">
+    <a href="#contact" class="btn-primary">Book a Free Demo →</a>
+    <a href="#features" class="btn-ghost">See How It Works</a>
+  </div>
+</div>
+
+<div style="padding: 0 24px 80px;">
+  <div class="pain">
+    <div class="quote">I'm tired of teaching the same AI the same thing over and over.</div>
+    <p>Every other AI agent resets. Forgets. Makes the same mistakes again. Not ours.</p>
+  </div>
+</div>
+
+<section id="features">
+  <div class="section-label">Why Agentic Movers</div>
+  <h2>Built Different. Learns Different.</h2>
+  <div class="compare-grid">
+    <div class="compare-card bad">
+      <h3>🐠 Other AI Agents</h3>
+      <ul>
+        <li><span>❌</span> Reset every conversation</li>
+        <li><span>❌</span> Forget previous lessons</li>
+        <li><span>❌</span> Repeat the same mistakes</li>
+        <li><span>❌</span> Need constant retraining</li>
+        <li><span>❌</span> One task at a time</li>
+        <li><span>❌</span> Break silently, no recovery</li>
+      </ul>
+    </div>
+    <div class="compare-card good">
+      <h3>🧠 Our Learning Agents</h3>
+      <ul>
+        <li><span>✅</span> Permanent memory across sessions</li>
+        <li><span>✅</span> Learn from every interaction</li>
+        <li><span>✅</span> Never repeat the same mistake</li>
+        <li><span>✅</span> Get smarter automatically</li>
+        <li><span>✅</span> True parallel multi-agent teams</li>
+        <li><span>✅</span> Self-healing, 24/7 uptime</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="features-bg">
+  <div class="section-label">Core Capabilities</div>
+  <h2>Your AI Company, Fully Managed</h2>
+  <div class="features-grid">
+    <div class="feat-card">
+      <div class="feat-icon">🧠</div>
+      <h3>Permanent Memory System</h3>
+      <p>Agents retain everything — decisions, lessons learned, customer preferences — forever. Knowledge compounds over time.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">⚡</div>
+      <h3>Multi-Agent Orchestration</h3>
+      <p>Marketing, sales, dev, and support agents run in parallel — each specialized, all coordinated — while you focus on strategy.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🔄</div>
+      <h3>Self-Healing Architecture</h3>
+      <p>Agents monitor each other. If one fails, others detect it and recover automatically. No babysitting required.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">📈</div>
+      <h3>Continuous Learning</h3>
+      <p>Every 6 hours: extract lessons, build knowledge, improve workflows. Your AI team gets better every single day.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🌐</div>
+      <h3>Multi-Provider Flexibility</h3>
+      <p>Mix Claude, GPT-4, Gemini, and open-source models. Best tool for each job — no vendor lock-in.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🏢</div>
+      <h3>Full Company Structure</h3>
+      <p>CEO, CMO, CTO, operations — all AI. We build a complete autonomous company hierarchy for you from day one.</p>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="section-label">Process</div>
+  <h2>From Zero to Running in Days</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Discovery Call</h3>
+        <p>We map your business, goals, and workflows. Identify the highest-leverage automation opportunities.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Agent Design</h3>
+        <p>We configure your multi-agent team — roles, memory systems, communication channels, and escalation protocols.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Deploy & Train</h3>
+        <p>Your agents go live. We run a 2-week onboarding where agents learn your brand, tone, and standards.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>Autonomous Operation</h3>
+        <p>Your AI company runs 24/7. Weekly reports. Continuous improvement. You stay in the loop, not in the weeds.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" id="contact">
+  <div class="section-label">Get Started</div>
+  <h2>Ready for AI That Actually Works?</h2>
+  <p>Book a free 30-minute demo. We'll show you exactly how your company runs on autopilot.</p>
+  <form class="lead-form" onsubmit="handleSubmit(event)">
+    <input type="email" name="email" placeholder="your@email.com" required>
+    <button type="submit" class="btn-primary" style="min-width:160px;">Book Demo →</button>
+  </form>
+  <p class="cta-note">Or email us: <a href="mailto:effortless.ai.yt@gmail.com" style="color:var(--accent2);">effortless.ai.yt@gmail.com</a></p>
+</section>
+
+<footer>
+  <div class="logo">Agentic <span>Movers</span></div>
+  <p>© 2026 SpockyMagicAI Holdings GBR. All rights reserved.</p>
+  <div style="display:flex; gap:24px;">
+    <a href="https://x.com/SpockyMagicAI">X / Twitter</a>
+    <a href="mailto:effortless.ai.yt@gmail.com">Email</a>
+  </div>
+</footer>
+
+<script>
+function handleSubmit(e) {
+  e.preventDefault();
+  const email = e.target.querySelector('input[type="email"]').value;
+  e.target.innerHTML = '<p style="color:var(--green);font-size:18px;font-weight:700;">✅ Got it! We\'ll reach out within 24h.</p>';
+  setTimeout(() => {
+    window.location.href = 'mailto:effortless.ai.yt@gmail.com?subject=Demo%20Request%20from%20agentic-movers.com&body=Hi%2C%20I%20want%20to%20book%20a%20demo.%20My%20email%3A%20' + encodeURIComponent(email);
+  }, 800);
+}
+</script>
+
+</body>
+</html>
