@@ -1,0 +1,39 @@
+name: E2E Playwright
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - run: npm ci
+        working-directory: ./projects/agentic-movers
+
+      - run: npx playwright install --with-deps chromium
+        working-directory: ./projects/agentic-movers
+
+      - name: Start dev server
+        run: python3 -m http.server 8080 &
+          working-directory: ./projects/agentic-movers
+          shell: bash
+          env:
+            BASE_URL: http://localhost:8080
+
+      - name: Wait for server
+        run: sleep 3
+
+      - name: Run Playwright tests
+        run: npx playwright test
+        working-directory: ./projects/agentic-movers
+        env:
+          BASE_URL: http://localhost:8080
